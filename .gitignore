@@ -1,0 +1,11 @@
+node_modules/
+.DS_Store
+
+# Ignore all logfiles and tempfiles.
+/log/*
+/tmp/*
+
+# Ignore coverage files
+/coverage
+.tool-versions
+.idea/
