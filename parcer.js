@@ -1,14 +1,14 @@
-const parser = (data, format) => {
+const getParcedData = (data, format) => {
   switch (format) {
-  case 'json':
-  return JSON.parse(data);
-  case 'yml':
-  return yaml.load(data);
-  case 'yaml':
-  return yaml.load(data);
-  default:
-  throw new Error('Unknown format "${format}"');
+    case 'json':
+      return JSON.parse(data);
+    case 'yml':
+      return yaml.load(data);
+    case 'yaml':
+      return yaml.load(data);
+    default:
+      throw new Error(`Unknown format ${format}`);
   }
 };
 
-export default parser;
+export default getParcedData;
