@@ -1,3 +1,5 @@
+import yaml from 'js-yaml';
+
 const getParcedData = (data, format) => {
   switch (format) {
     case 'json':
