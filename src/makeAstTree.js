@@ -33,6 +33,13 @@ const makeAstTree = (obj1, obj2) => {
         value: value1,
         status: 'unchanged',
       });
+    } else if (_.isObject(value1) && _.isObject(value2)) {
+      const children = makeAstTree(value1, value2);
+      preparedData.push({
+        key,
+        value: children,
+        status: 'nested',
+      });
     }
   });
 
@@ -48,6 +55,9 @@ const makeAstTree = (obj1, obj2) => {
     }
     if (node.status === 'unchanged') {
       return `  ${node.key}: ${node.value}`;
+    }
+    if (node.status === 'nested') {
+      return `${node.key}: {\n${node.value.join('\n')}\n}`;
     }
     return `${node.key}: ${node.value}`;
   });

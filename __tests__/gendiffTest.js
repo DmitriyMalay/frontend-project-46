@@ -16,6 +16,5 @@ test('check default compare', () => {
 });
 
 test('check default compare yaml files', () => {
-  expect(genDiff('__fixtures__/file1.yaml', '__fixtures__/file2.yaml')).toEqual(readFile('expectJson.txt'),
-  );
+  expect(genDiff('__fixtures__/file1.yaml', '__fixtures__/file2.yaml')).toEqual(readFile('expectJson.txt'));
 });
