@@ -40,3 +40,4 @@ npm install
 npm link
 ```
 
+<a href="https://asciinema.org/a/iouA4pkxLW9qIDfyz2dfuIbSL" target="_blank"><img src="https://asciinema.org/a/iouA4pkxLW9qIDfyz2dfuIbSL.svg" /></a>

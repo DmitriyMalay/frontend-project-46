@@ -1,40 +1,38 @@
 import _ from 'lodash';
 
-const spacer = '    ';
-const depth = 1;
-const indent = (depth) => spacer.repeat(depth);
+const spacesCount = 4;
+const indent = (depth) => ' '.repeat((depth * spacesCount) - 2);
 
-const makeStringify = (data, depth) => {
-  if (!_.isObject(data)) {
-    return `${data}`;
-  }
-  const keys = Object.keys(data);
-  const result = keys.map((key) => `${indent(depth + 1)}${key}: ${makeStringify(data[key], depth + 1)}`);
-  return `{\n${result.join('\n')}\n${indent}}`;
+const makeStringify = (element, spaceCount) => {
+  const iter = (data, depth) => {
+    if (!_.isObject(data)) return data;
+
+    const entries = Object.entries(data);
+    const strings = entries.map(([key, value]) => `${indent(depth + 1)}  ${key}: ${iter(value, depth + 1)}`);
+    return ['{', ...strings, `${indent(depth)}  }`].join('\n');
+  };
+  return iter(element, spaceCount);
 };
 
-const stylish = (tree) => {
-  const iter = (node, depth) => {
-    let result = '';
-    if (node.status === 'added') {
-      result += `${indent(depth)}+ ${node.key}: ${makeStringify(node.value, depth)}\n`;
+const stylish = (data) => {
+  const iter = (tree, depth = 1) => tree.map((node) => {
+    const preparedData = (value, symbol) => `${indent(depth)}${symbol} ${node.key}: ${makeStringify(value, depth)}\n`;
+    switch (node.status) {
+      case 'added':
+        return preparedData(node.value, '+');
+      case 'deleted':
+        return preparedData(node.value, '-');
+      case 'unchanged':
+        return preparedData(node.value, ' ');
+      case 'changed':
+        return `${preparedData(node.oldValue, '-')}${preparedData(node.newValue, '+')}`;
+      case 'nested':
+        return `${indent(depth)}  ${node.key}: {\n${iter(node.children, depth + 1).join('')}${indent(depth)}  }\n`;
+      default:
+        throw new Error(`Type is not defined - ${node.status}`);
     }
-    if (node.status === 'deleted') {
-      result += `${indent(depth)}- ${node.key}: ${makeStringify(node.value, depth)}\n`;
-    }
-    if (node.status === 'changed') {
-      result += `${indent(depth)}- ${node.key}: ${makeStringify(node.value1, depth)}\n`;
-      result += `${indent(depth)}+ ${node.key}: ${makeStringify(node.value2, depth)}\n`;
-    }
-    if (node.status === 'unchanged') {
-      result += `${indent(depth)}  ${node.key}: ${makeStringify(node.value, depth)}\n`;
-    }
-    if (node.status === 'nested') {
-      result += `${indent(depth)}  ${node.key}: {\n${iter(node.value, depth + 1)}\n${indent(depth)}}\n`;
-    }
-    return result;
-  };
-  return `{\n${iter(tree, depth)}\n}`;
+  });
+  return `{\n${iter(data).join('')}}`;
 };
 
 export default stylish;

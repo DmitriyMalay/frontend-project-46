@@ -3,65 +3,30 @@ import _ from 'lodash';
 const makeAstTree = (obj1, obj2) => {
   const allKeys = _.union(Object.keys(obj1), Object.keys(obj2));
   const sortedKeys = _.sortBy(allKeys);
-  const preparedData = [];
-  sortedKeys.forEach((key) => {
+  const result = sortedKeys.map((key) => {
     const value1 = obj1[key];
     const value2 = obj2[key];
 
-    if (value1 === undefined && value2 !== undefined) {
-      preparedData.push({
-        key,
-        value: value2,
-        status: 'added',
-      });
-    } else if (value1 !== undefined && value2 === undefined) {
-      preparedData.push({
-        key,
-        value: value1,
-        status: 'deleted',
-      });
-    } else if (!_.isEqual(value1, value2)) {
-      preparedData.push({
-        key,
-        value1,
-        value2,
-        status: 'changed',
-      });
-    } else if (value1 === value2) {
-      preparedData.push({
-        key,
-        value: value1,
-        status: 'unchanged',
-      });
-    } else if (_.isObject(value1) && _.isObject(value2)) {
-      const children = makeAstTree(value1, value2);
-      preparedData.push({
-        key,
-        value: children,
-        status: 'nested',
-      });
+    if (!_.has(obj1, key)) {
+      return { key, status: 'added', value: obj2[key] };
     }
+    if (!_.has(obj2, key)) {
+      return { key, status: 'deleted', value: obj1[key] };
+    }
+    if (_.isObject(value1) && _.isObject(value2)) {
+      return { key, status: 'nested', children: makeAstTree(value1, value2) };
+    }
+    if (value1 !== value2) {
+      const oldValue = obj1[key];
+      const newValue = obj2[key];
+      return {
+        key, status: 'changed', oldValue, newValue,
+      };
+    }
+    return { key, status: 'unchanged', value: obj1[key] };
   });
 
-  const result = preparedData.map((node) => {
-    if (node.status === 'added') {
-      return `+ ${node.key}: ${node.value}`;
-    }
-    if (node.status === 'deleted') {
-      return `- ${node.key}: ${node.value}`;
-    }
-    if (node.status === 'changed') {
-      return `- ${node.key}: ${node.value1}\n+ ${node.key}: ${node.value2}`;
-    }
-    if (node.status === 'unchanged') {
-      return `  ${node.key}: ${node.value}`;
-    }
-    if (node.status === 'nested') {
-      return `${node.key}: {\n${node.value.join('\n')}\n}`;
-    }
-    return `${node.key}: ${node.value}`;
-  });
-  return `{\n${result.join('\n')}\n}`;
+  return result;
 };
 
 export default makeAstTree;
