@@ -29,7 +29,7 @@ const stylish = (data) => {
       case 'nested':
         return `${indent(depth)}  ${node.key}: {\n${iter(node.children, depth + 1).join('')}${indent(depth)}  }\n`;
       default:
-        throw new Error(`This type doesn't exist: ${node.status}`);
+        throw new Error(`Type is not defined - ${node.status}`);
     }
   });
   return `{\n${iter(data).join('')}}`;

@@ -39,6 +39,7 @@ npm install
 ```
 npm link
 ```
+
 ### Format 'Stylish'
 
 <a href="https://asciinema.org/a/iouA4pkxLW9qIDfyz2dfuIbSL" target="_blank"><img src="https://asciinema.org/a/iouA4pkxLW9qIDfyz2dfuIbSL.svg" /></a>
@@ -46,3 +47,7 @@ npm link
 ### Format 'Plain'
 
 <a href="https://asciinema.org/a/odKGR9Mm418QrV8oBPy37uJ8p" target="_blank"><img src="https://asciinema.org/a/odKGR9Mm418QrV8oBPy37uJ8p.svg" /></a>
+
+### Format 'Json'
+
+<a href="https://asciinema.org/a/9gBYLnbBiNHp8x093XTwTmozp" target="_blank"><img src="https://asciinema.org/a/9gBYLnbBiNHp8x093XTwTmozp.svg" /></a>

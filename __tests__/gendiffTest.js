@@ -11,16 +11,22 @@ const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', 
 const readFile = (filename) => fs.readFileSync(getFixturePath(filename), 'utf8');
 test('check default compare', () => {
   expect(genDiff('__fixtures__/file1.json', '__fixtures__/file2.json')).toEqual(
-    readFile('expectJson.txt'),
+    readFile('expectStylish.txt'),
   );
 });
 
 test('check default compare yaml files', () => {
-  expect(genDiff('__fixtures__/file1.yaml', '__fixtures__/file2.yaml')).toEqual(readFile('expectJson.txt'));
+  expect(genDiff('__fixtures__/file1.yaml', '__fixtures__/file2.yaml')).toEqual(readFile('expectStylish.txt'));
 });
 
-test('check default compare plain format', () => {
+test('check compare plain format', () => {
   expect(genDiff('__fixtures__/file1.json', '__fixtures__/file2.json', 'plain')).toEqual(
     readFile('expectPlain.txt'),
+  );
+});
+
+test('check compare json format', () => {
+  expect(genDiff('__fixtures__/file1.json', '__fixtures__/file2.json', 'json')).toEqual(
+    readFile('expectJson.txt'),
   );
 });
