@@ -1,8 +1,6 @@
 import fs from 'fs';
-// import _ from 'lodash';
 import path from 'path';
-import getParcedData from '../parcer.js';
-// import stylish from './formatters/stylish.js';
+import getParcedData from './parcer.js';
 import makeAstTree from './makeAstTree.js';
 import getFormat from './formatters/index.js';
 
