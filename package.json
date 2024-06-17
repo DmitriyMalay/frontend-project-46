@@ -1,7 +1,7 @@
 {
   "name": "@hexlet/code",
   "version": "1.0.0",
-  "description": "[![Actions Status](https://github.com/DmitriyMalay/frontend-project-46/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/DmitriyMalay/frontend-project-46/actions)",
+  "description": "The utility compares and shows the differences of two configuration files (JSON, Yaml or Yml)",
   "main": "src/index.js",
   "bin": {
     "gendiff": "./bin/gendiff.js"
